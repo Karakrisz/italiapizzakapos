@@ -3,7 +3,7 @@ const ingredients = [
     { name: '00-ás liszt', imgSrc: 'liszt.jpg' },
     { name: 'Paradicsom', imgSrc: 'paradicsom.jpg' },
     { name: 'Extra szűz olívaolaj', imgSrc: 'olivaolaj.jpg' },
-    { name: 'Friss Rukkola', imgSrc: 'bazsalikom.jpg' },
+    { name: 'Friss Rukkola', imgSrc: 'rukkola.jpg' },
     { name: 'Mozzarella', imgSrc: 'mozarella.jpg' }
 ]
 </script>

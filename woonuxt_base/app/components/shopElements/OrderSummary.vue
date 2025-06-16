@@ -58,7 +58,7 @@ watch(() => cart.value, (newCart, oldCart) => {
     <h2 class="mb-6 text-xl font-semibold leading-none">{{ $t('messages.shop.orderSummary') }}</h2>
 
     <!-- Debug Panel - Részletes információk a kosárról -->
-    <div class="mb-6 p-3 bg-gray-100 text-xs rounded">
+    <!-- <div class="mb-6 p-3 bg-gray-100 text-xs rounded">
       <details>
         <summary class="font-bold text-red-600 cursor-pointer">Debug Panel</summary>
         <div class="mt-2 space-y-2">
@@ -80,7 +80,7 @@ watch(() => cart.value, (newCart, oldCart) => {
           </div>
         </div>
       </details>
-    </div>
+    </div> -->
 
     <ul class="flex flex-col gap-4 overflow-y-auto">
       <li v-for="item in cart.contents.nodes" :key="item.key" class="border-b pb-4">
@@ -88,14 +88,13 @@ watch(() => cart.value, (newCart, oldCart) => {
         <CartCard :item="item" />
 
         <!-- 2) Debug: Item tulajdonságok vizsgálata -->
-        <div class="mt-4 p-2 bg-gray-50 text-xs rounded overflow-auto">
+        <!-- <div class="mt-4 p-2 bg-gray-50 text-xs rounded overflow-auto">
           <details>
             <summary class="font-bold cursor-pointer">Item Debug Info</summary>
             <div class="mt-2">
               <div><strong>Item kulcs:</strong> {{ item.key }}</div>
               <div><strong>Item tulajdonságok:</strong> {{ Object.keys(item).join(', ') }}</div>
               
-              <!-- extraData létezésének ellenőrzése -->
               <div v-if="item.extraData !== undefined">
                 <div><strong>extraData típusa:</strong> {{ typeof item.extraData }}</div>
                 <div><strong>extraData tömb?</strong> {{ Array.isArray(item.extraData) }}</div>
@@ -109,7 +108,7 @@ watch(() => cart.value, (newCart, oldCart) => {
               </div>
             </div>
           </details>
-        </div>
+        </div> -->
 
         <!-- 3) Eredeti mezők komponens -->
         <CartItemCustomFields :item="item" class="mt-4" />

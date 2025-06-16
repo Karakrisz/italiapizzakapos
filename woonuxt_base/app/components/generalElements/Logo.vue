@@ -3,8 +3,8 @@ const { siteName } = useAppConfig();
 const runtimeConfig = useRuntimeConfig();
 const img = useImage();
 
-const logoUrl = '/img/svg/SVG_Logo.svg';
-const faviconUrl = '/img/svg/SVG_Logo.svg';
+const logoUrl = '/img/logo.svg';
+const faviconUrl = '/img/logo.svg';
 </script>
 
 <template>

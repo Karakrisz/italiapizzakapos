@@ -41,7 +41,7 @@ logBeforeMount();
     </div>
 
     <!-- Debug információ panel -->
-    <div class="bg-gray-100 p-4 mt-4 mb-2 mx-4 rounded-lg text-xs overflow-auto">
+    <!-- <div class="bg-gray-100 p-4 mt-4 mb-2 mx-4 rounded-lg text-xs overflow-auto">
       <details>
         <summary class="font-bold text-red-600 cursor-pointer">Debug Info</summary>
         <div v-if="cart?.contents?.nodes?.length > 0" class="mt-2">
@@ -51,7 +51,7 @@ logBeforeMount();
             <div>Quantity: {{ item.quantity }}</div>
             <div class="text-red-600">Has extraData: {{ !!item.extraData }}</div>
             
-            <!-- Összes property kilistázása -->
+
             <div class="mt-2">
               <div class="font-semibold">Properties:</div>
               <div class="grid grid-cols-2 gap-1 mt-1">
@@ -59,13 +59,13 @@ logBeforeMount();
               </div>
             </div>
             
-            <!-- Ha van extraData, megjelenítjük -->
+      
             <div v-if="item.extraData" class="mt-2">
               <div class="font-semibold">extraData:</div>
               <pre class="bg-gray-200 p-2 mt-1 rounded overflow-auto max-h-40">{{ JSON.stringify(item.extraData, null, 2) }}</pre>
             </div>
             
-            <!-- Raw item adatok megjelenítése -->
+    
             <details class="mt-2">
               <summary class="cursor-pointer text-blue-600">Teljes item objektum</summary>
               <pre class="bg-gray-200 p-2 mt-1 rounded overflow-auto max-h-60">{{ JSON.stringify(item, null, 2) }}</pre>
@@ -76,7 +76,7 @@ logBeforeMount();
           Nincsenek elemek a kosárban.
         </div>
       </details>
-    </div>
+    </div> -->
 
     <ClientOnly>
       <template v-if="cart && !cart.isEmpty">

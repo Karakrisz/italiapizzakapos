@@ -23,6 +23,30 @@ onBeforeMount(async () => {
 });
 
 const payNow = async () => {
+  // Eltároljuk az eredeti email címet
+  const originalEmail = customer.value?.billing?.email || '';
+  
+  // Egyedi email cím generálása vendég rendelésekhez, ha nincs bejelölve a "Felhasználó létrehozása"
+  if (!orderInput.value.createAccount && originalEmail) {
+    // Egyedi időbélyeg hozzáadása az email címhez
+    const timestamp = new Date().getTime();
+    
+    // Az email formátumot megőrizzük: felhasználónév+timestamp@domain.com
+    const [username, domain] = originalEmail.split('@');
+    const uniqueEmail = `${username}+guest${timestamp}@${domain}`;
+    
+    // Elmentjük az eredeti email címet egy metaadatba, hogy kommunikálni tudjunk a vásárlóval
+    orderInput.value.metaData.push({ key: 'original_customer_email', value: originalEmail });
+    
+    // A rendeléshez ezt az egyedi email címet használjuk
+    customer.value.billing.email = uniqueEmail;
+    
+    // Ha van shipping email is, azt is módosítjuk
+    if (customer.value.shipping?.email) {
+      customer.value.shipping.email = uniqueEmail;
+    }
+  }
+  
   buttonText.value = t('messages.general.processing');
 
   const { stripePaymentIntent } = await GqlGetStripePaymentIntent();
@@ -40,12 +64,29 @@ const payNow = async () => {
       isPaid.value = setupIntent?.status === 'succeeded' || false;
       orderInput.value.transactionId = source?.created?.toString() || new Date().getTime().toString();
     }
+    
+    // Rendelés feldolgozása
+    await proccessCheckout(isPaid.value);
+    
+    // Ha sikeres volt a rendelés és vendég módban vagyunk, visszaállítjuk az eredeti email címet (nem feltétlenül szükséges)
+    if (!orderInput.value.createAccount && originalEmail) {
+      customer.value.billing.email = originalEmail;
+      if (customer.value.shipping?.email) {
+        customer.value.shipping.email = originalEmail;
+      }
+    }
   } catch (error) {
     console.error(error);
     buttonText.value = t('messages.shop.placeOrder');
+    
+    // Hiba esetén visszaállítjuk az eredeti email címet
+    if (!orderInput.value.createAccount && originalEmail) {
+      customer.value.billing.email = originalEmail;
+      if (customer.value.shipping?.email) {
+        customer.value.shipping.email = originalEmail;
+      }
+    }
   }
-
-  proccessCheckout(isPaid.value);
 };
 
 const handleStripeElement = (stripeElements: StripeElements): void => {
@@ -91,7 +132,7 @@ useSeoMeta({
               <label for="email">{{ $t('messages.billing.email') }}</label>
               <input
                 v-model="customer.billing.email"
-                placeholder="johndoe@email.com"
+                placeholder="nagysandor@gmail.com"
                 autocomplete="email"
                 type="email"
                 name="email"
@@ -106,7 +147,7 @@ useSeoMeta({
             <template v-if="orderInput.createAccount">
               <div class="w-full mt-4">
                 <label for="username">{{ $t('messages.account.username') }}</label>
-                <input v-model="orderInput.username" placeholder="johndoe" autocomplete="username" type="text" name="username" required >
+                <input v-model="orderInput.username" placeholder="nagysandor" autocomplete="username" type="text" name="username" required >
               </div>
               <div v-if="orderInput.createAccount" class="w-full my-2">
                 <label for="email">{{ $t('messages.account.password') }}</label>

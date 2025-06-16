@@ -48,10 +48,17 @@ async function getOrder() {
     if (data.order) {
       order.value = data.order;
     } else {
-      errorMessage.value = 'Could not find order';
+      errorMessage.value = 'A rendelés nem található';
     }
   } catch (err: any) {
-    errorMessage.value = err?.gqlErrors?.[0].message || 'Could not find order';
+    const serverError = err?.gqlErrors?.[0].message || '';
+    if (serverError.includes('Not authorized to access this order')) {
+      errorMessage.value = 'Köszönjük a rendelésedet! Az összesítőt és a jelszóbeállításhoz szükséges linket elküldtük e-mailben. A rendelésed állapotát a jelszó beállítása és bejelentkezés után tudod nyomon követni ezen a felületen is.';
+    } else if (serverError.includes('Could not find order')) {
+      errorMessage.value = 'Sajnáljuk, a keresett rendelés nem található. Kérjük, ellenőrizd a rendelés számát, vagy lépj kapcsolatba velünk segítségért.';
+    } else {
+      errorMessage.value = 'Sajnáljuk, probléma történt a rendelés betöltése közben. Kérjük, próbáld újra később vagy lépj kapcsolatba velünk.';
+    }
   }
   isLoaded.value = true;
   console.log(order.value);
@@ -180,9 +187,9 @@ useSeoMeta({
         </div>
       </div>
       <div v-else-if="errorMessage" class="flex flex-col items-center justify-center flex-1 w-full gap-4 text-center">
-        <Icon name="ion:sad-outline" size="96" class="text-stone-700" />
-        <h1 class="text-xl font-semibold">Error</h1>
-        <div v-if="errorMessage" class="text-sm text-red-500" v-html="errorMessage" />
+        <!-- <Icon name="ion:sad-outline" size="96" class="text-stone-700" /> -->
+        <h1 class="text-xl font-semibold">Információ</h1>
+        <div v-if="errorMessage" class="text-sm text-red-500 infotext" v-html="errorMessage" />
       </div>
     </template>
   </div>

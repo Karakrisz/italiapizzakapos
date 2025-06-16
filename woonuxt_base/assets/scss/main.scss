@@ -1,0 +1,23 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply text-black;
+  }
+}
+
+@layer components {
+  .section-title {
+    @apply uppercase text-[20px] font-extrabold text-center;
+  }
+
+  .button {
+    @apply uppercase px-[42px] py-[10px] font-bold text-[16px] text-white rounded-full text-center hover:drop-shadow-lg transition active:drop-shadow-none flex gap-1 items-center justify-center;
+  }
+}
+
+.flex.gap-\[5px\].items-center.font-bold,.flex.gap-\[5px\].items-center {
+  font-size: 16px;
+}
